@@ -1,4 +1,6 @@
 package com.ENOTE_APP.controller;
+import com.ENOTE_APP.dto.CategoryDto;
+import com.ENOTE_APP.dto.CategoryResponse;
 import com.ENOTE_APP.entity.Category;
 import com.ENOTE_APP.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +17,11 @@ public class CategoryController {
 
 
     @PostMapping("/save-category")
-    private ResponseEntity<String> saveCategory(@RequestBody Category category){
+    private ResponseEntity<String> saveCategory(@RequestBody CategoryDto categoryDto){
 
-        if(this.categoryService.saveCategory(category)){
+        System.out.println("active"+categoryDto.getActive());
+
+        if(this.categoryService.saveCategory(categoryDto)){
             return new ResponseEntity<>("saved successfully",HttpStatus.CREATED);
         }
         else {
@@ -25,9 +29,14 @@ public class CategoryController {
         }
     }
     @GetMapping("/getAll-category")
-    private ResponseEntity<List<Category>> getAllCategory(){
+    private ResponseEntity<List<CategoryDto>> getAllCategory(){
 
        return new ResponseEntity<>(this.categoryService.getAllCategory(), HttpStatus.OK);
+    }
+
+    @GetMapping("/get-active-category")
+    private ResponseEntity<List<CategoryResponse>>getActiveCategory(){
+        return new ResponseEntity<>(this.categoryService.getActiveCategory(),HttpStatus.OK);
     }
 
 }

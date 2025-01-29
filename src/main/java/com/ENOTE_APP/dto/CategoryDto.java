@@ -1,21 +1,46 @@
-package com.ENOTE_APP.entity;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.MappedSuperclass;
-import jakarta.persistence.criteria.CriteriaBuilder;
+package com.ENOTE_APP.dto;
 
 import java.util.Date;
 
-@MappedSuperclass
-public class BaseModel {
+public class CategoryDto {
+
+    private Integer id;
+    private String name;
+
+    private String description;
+
     private  Boolean isActive;
-    private Boolean isDeleted;
 
     private Integer createdBy;
     private Date createdOn;
 
     private Integer updatedBy;
     private Date updatedOn;
+
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     public Boolean getActive() {
         return isActive;
@@ -25,13 +50,7 @@ public class BaseModel {
         isActive = active;
     }
 
-    public Boolean getDeleted() {
-        return isDeleted;
-    }
 
-    public void setDeleted(Boolean deleted) {
-        isDeleted = deleted;
-    }
 
     public Integer getCreatedBy() {
         return createdBy;
@@ -49,7 +68,7 @@ public class BaseModel {
         this.createdOn = createdOn;
     }
 
-    public  Integer getUpdatedBy() {
+    public Integer getUpdatedBy() {
         return updatedBy;
     }
 
