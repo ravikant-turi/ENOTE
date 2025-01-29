@@ -12,6 +12,7 @@ import org.springframework.util.ObjectUtils;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -44,7 +45,7 @@ public class CategoryServiceImpl implements CategoryService{
 
 
 
-      List<Category>  categoryList=categoryRepository.findAll();
+      List<Category>  categoryList=categoryRepository.findByIsDeletedFalse();
 
      List<CategoryDto> categoryDtoList= categoryList.stream().map(category -> modelMapper.map(category,CategoryDto.class)).collect(Collectors.toList());
 
@@ -57,5 +58,27 @@ public class CategoryServiceImpl implements CategoryService{
         return categoryList.stream().map(category -> modelMapper.map(category, CategoryResponse.class)).collect(Collectors.toList());
 
 
+    }
+
+    @Override
+    public CategoryDto getCategoryByID(Integer id) {
+      Optional<Category> findByCategory = categoryRepository.findById(id);
+       if (findByCategory.isPresent()){
+           Category category=findByCategory.get();
+           return modelMapper.map(category,CategoryDto.class);
+       }
+        return null;
+    }
+
+    @Override
+    public CategoryDto deletedCategoryByID(Integer id) {
+        Optional<Category> findByCategory = categoryRepository.findByIdAndIsDeletedFalse(id);
+        if (findByCategory.isPresent()){
+            Category category=findByCategory.get();
+            category.setDeleted(true);
+            category=this.categoryRepository.save(category);
+            return modelMapper.map(category,CategoryDto.class);
+        }
+        return null;
     }
 }
